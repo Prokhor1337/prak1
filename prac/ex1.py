@@ -5,6 +5,6 @@ try:
     else:
         num = int(s)
     result = num * 2
-    print("Результат (у вигляді рядка):", str(result))
+    print("Результат помножений на 2 (у вигляді рядка):", str(result))
 except ValueError:
     print("Некоректне число.")
