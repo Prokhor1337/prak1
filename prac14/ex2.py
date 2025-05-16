@@ -1,28 +1,48 @@
 import json
 import os
 
-FILENAME = "player_stats.json"
+FILENAME = "contacts.json"
 
-def load_stats():
+def load_contacts():
     if os.path.exists(FILENAME):
         with open(FILENAME, "r", encoding="utf-8") as f:
             return json.load(f)
-    return {"games_played": 0, "wins": 0, "losses": 0}
+    return {}
 
-def save_stats(stats):
+def save_contacts(contacts):
     with open(FILENAME, "w", encoding="utf-8") as f:
-        json.dump(stats, f, indent=4)
+        json.dump(contacts, f, indent=4)
 
-def update_stats(win):
-    stats = load_stats()
-    stats["games_played"] += 1
-    if win:
-        stats["wins"] += 1
+def add_contact(contacts):
+    name = input("Ім'я: ")
+    phone = input("Телефон: ")
+    contacts[name] = phone
+    print("Контакт додано.")
+
+def show_contacts(contacts):
+    if not contacts:
+        print("Список порожній.")
     else:
-        stats["losses"] += 1
-    save_stats(stats)
-    print("Оновлена статистика:", stats)
+        for name, phone in contacts.items():
+            print(f"{name}: {phone}")
+
+def main():
+    contacts = load_contacts()
+    while True:
+        print("\n1. Додати контакт")
+        print("2. Показати всі контакти")
+        print("3. Вихід")
+        choice = input("Оберіть дію: ")
+        if choice == "1":
+            add_contact(contacts)
+            save_contacts(contacts)
+        elif choice == "2":
+            show_contacts(contacts)
+        elif choice == "3":
+            save_contacts(contacts)
+            break
+        else:
+            print("Невірний вибір.")
 
 if __name__ == "__main__":
-    result = input("Чи виграв гравець? (так/ні): ").lower()
-    update_stats(result == "так")
+    main()
